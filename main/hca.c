@@ -28,7 +28,7 @@
 #define MAX_HTTP_OUTPUT_BUFFER 2048
 static const char *TAG = "HCA";
 
-/* Root cert for howsmyssl.com, taken from jsonplaceholder_cert.pem
+/* Root cert for howsmyssl.com, taken from vivook_cert.pem
 
    The PEM file was extracted from the output of this command:
    openssl s_client -showcerts -connect www.howsmyssl.com:443 </dev/null
@@ -38,8 +38,8 @@ static const char *TAG = "HCA";
    To embed it in the app binary, the PEM file is named
    in the component.mk COMPONENT_EMBED_TXTFILES variable.
 */
-extern const char jsonplaceholder_cert_pem_start[] asm("_binary_jsonplaceholder_cert_pem_start");
-extern const char jsonplaceholder_cert_pem_end[]   asm("_binary_jsonplaceholder_cert_pem_end");
+extern const char vivook_cert_pem_start[] asm("_binary_vivook_cert_pem_start");
+extern const char vivook_cert_pem_end[]   asm("_binary_vivook_cert_pem_end");
 
 extern const char postman_root_cert_pem_start[] asm("_binary_postman_root_cert_pem_start");
 extern const char postman_root_cert_pem_end[]   asm("_binary_postman_root_cert_pem_end");
@@ -139,7 +139,7 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 static void https_with_url(void)
 {
     esp_http_client_config_t config = {
-        .url = "https://jsonplaceholder.typicode.com/posts/1",
+        .url = "https://us-central1-vivook-341cb.cloudfunctions.net/api/devices/look-for/09934",
         .event_handler = _http_event_handler,
         .crt_bundle_attach = esp_crt_bundle_attach,
     };
@@ -166,7 +166,7 @@ static void https_with_hostname_path(void)
         .path = "/",
         .transport_type = HTTP_TRANSPORT_OVER_SSL,
         .event_handler = _http_event_handler,
-        .cert_pem = jsonplaceholder_cert_pem_start,
+        .cert_pem = vivook_cert_pem_start,
     };
     esp_http_client_handle_t client = esp_http_client_init(&config);
     esp_err_t err = esp_http_client_perform(client);
@@ -272,7 +272,7 @@ static void http_redirect_to_https(void)
     esp_http_client_config_t config = {
         .url = "http://"CONFIG_EXAMPLE_HTTP_ENDPOINT"/redirect-to?url=https://www.howsmyssl.com",
         .event_handler = _http_event_handler,
-        .cert_pem = jsonplaceholder_cert_pem_start,
+        .cert_pem = vivook_cert_pem_start,
     };
     esp_http_client_handle_t client = esp_http_client_init(&config);
     esp_err_t err = esp_http_client_perform(client);

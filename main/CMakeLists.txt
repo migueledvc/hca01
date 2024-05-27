@@ -10,4 +10,4 @@ endif()
 idf_component_register(SRCS "hca.c"
                     INCLUDE_DIRS "."
                     REQUIRES ${requires}
-                    EMBED_TXTFILES jsonplaceholder_cert.pem)
+                    EMBED_TXTFILES vivook_cert.pem)
